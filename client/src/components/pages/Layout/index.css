@@ -1,0 +1,15 @@
+
+/* Styles for Navbar component */
+.nav-link.active {
+  color: #fff !important;
+  font-weight: bold;
+  border-bottom: 2px solid #fff;
+}
+
+.nav-link {
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ddd !important;
+}
