@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-import './navbar.css';
+import './css/navbar.css';
 
 const Navbar = () => {
 

@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Footer from './layout/footer';
 import Navbar from './layout/navbar';
 import './css/profile.css';
+import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
+    const location = useLocation();
   const [activeTab, setActiveTab] = useState('personal');
+
+  // Handle navigation from notification bell click
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location.state]);
   const [profileData, setProfileData] = useState({
     firstName: '',
     lastName: '',
@@ -24,6 +33,7 @@ const Profile = () => {
   //loading and saving states
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
   const [verifyingEmail, setVerifyingEmail] = useState(false);
@@ -54,7 +64,7 @@ const Profile = () => {
           username: data.user.email?.split('@')[0] || '',
           country: data.user.country || '',
           phoneNumber: data.user.phonenumber || '',
-          profileImage: data.user.profileImage || 'https://via.placeholder.com/150'
+          profileImage: data.user.profile_image || 'https://via.placeholder.com/150'
         });
       }
       setLoading(false);
@@ -64,7 +74,6 @@ const Profile = () => {
       setLoading(false);
     });
   }, []);
-
 
 // Fetch notifications
 useEffect(() => {
@@ -173,6 +182,12 @@ useEffect(() => {
     }
   };
 
+    //Notify tab change based on location state
+     useEffect(() => {
+    if (location.state && location.state.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location]);
 
 
 
@@ -185,26 +200,101 @@ useEffect(() => {
     setMessage({ type: '', text: '' });
   };
 
-  // Handle profile image upload
-  const handleImageUpload = (e) => {
+  // Handle profile image upload to Cloudinary
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+    if (!file) return;
+
+    // Validate file size (10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Image size must be less than 10MB' });
+      return;
+    }
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setMessage({ type: 'error', text: 'Only image files (JPEG, PNG, GIF, WebP) are allowed' });
+      return;
+    }
+
+    setUploadingImage(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const token = localStorage.getItem('token');
+
+      const formData = new FormData();
+      formData.append('profileImage', file);
+
+      const response = await fetch(`${apiUrl}/user/profile/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        // Update profile image with Cloudinary URL
         setProfileData({
           ...profileData,
-          profileImage: reader.result
+          profileImage: data.imageUrl
         });
-      };
-      reader.readAsDataURL(file);
+        setMessage({ type: 'success', text: 'Profile image uploaded successfully!' });
+        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
+      } else {
+        setMessage({ type: 'error', text: data.message || 'Failed to upload image' });
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setMessage({ type: 'error', text: 'Network error. Please try again.' });
+    } finally {
+      setUploadingImage(false);
+      e.target.value = ''; // Reset file input
     }
   };
 
-  const handleRemoveImage = () => {
-    setProfileData({
-      ...profileData,
-      profileImage: 'https://via.placeholder.com/150'
-    });
+  const handleRemoveImage = async () => {
+    if (!window.confirm('Are you sure you want to remove your profile image?')) {
+      return;
+    }
+
+    setUploadingImage(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const token = localStorage.getItem('token');
+
+      const response = await fetch(`${apiUrl}/user/profile/remove-image`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        setProfileData({
+          ...profileData,
+          profileImage: data.imageUrl
+        });
+        setMessage({ type: 'success', text: 'Profile image removed successfully!' });
+        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
+      } else {
+        setMessage({ type: 'error', text: data.message || 'Failed to remove image' });
+      }
+    } catch (error) {
+      console.error('Error removing image:', error);
+      setMessage({ type: 'error', text: 'Network error. Please try again.' });
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handlePasswordChange = (e) => {
@@ -379,7 +469,7 @@ return (
             onClick={() => setActiveTab('notification')}
           >
             <i className="bi bi-bell"></i>
-            <span>Notification Settings</span>
+            <span>Notifications</span>
           </button>
           <button 
             className={`sidebar-item ${activeTab === 'security' ? 'active' : ''}`}
@@ -407,20 +497,32 @@ return (
               <div className="profile-image-section">
                 <div className="profile-image-wrapper">
                   <img src={profileData.profileImage} alt="Profile" />
+                  {uploadingImage && (
+                    <div className="image-overlay">
+                      <div className="spinner-border text-light" role="status">
+                        <span className="visually-hidden">Uploading...</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="image-buttons">
-                  <label htmlFor="upload-image" className="upload-btn">
-                    Upload
+                  <label htmlFor="upload-image" className={`upload-btn ${uploadingImage ? 'disabled' : ''}`}>
+                    {uploadingImage ? 'Uploading...' : 'Upload'}
                   </label>
                   <input 
                     type="file" 
                     id="upload-image" 
-                    accept="image/*" 
+                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" 
                     onChange={handleImageUpload}
+                    disabled={uploadingImage}
                     style={{ display: 'none' }}
                   />
-                  <button className="remove-btn" onClick={handleRemoveImage}>
-                    Remove
+                  <button 
+                    className="remove-btn" 
+                    onClick={handleRemoveImage}
+                    disabled={uploadingImage}
+                  >
+                    {uploadingImage ? 'Removing...' : 'Remove'}
                   </button>
                 </div>
               </div>
@@ -480,13 +582,16 @@ return (
                     <div className="form-row">
                       <div className="form-group">
                         <label>Country</label>
-                        <input 
-                          type="text" 
+                        <select 
                           name="country"
                           value={profileData.country}
                           onChange={handleInputChange}
-                          placeholder="Enter country"
-                        />
+                          className="form-select"
+                        >
+                          <option value="">Select Country</option>
+                          <option value="Nigeria">Nigeria</option>
+                          <option value="Ghana">Ghana</option>
+                        </select>
                       </div>
                     </div>
     

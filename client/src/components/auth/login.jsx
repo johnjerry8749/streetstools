@@ -51,6 +51,7 @@ const handleSubmit = async (e) => {
       // Store token in localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('role', response.data.user.role);
       
       setStatus('success');
       setErrors({});

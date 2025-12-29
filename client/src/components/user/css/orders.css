@@ -1,0 +1,265 @@
+/* Coming Soon Card Styles */
+.coming-soon-wrapper {
+  margin-left: 260px;
+  margin-top: 70px;
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+}
+
+.coming-soon-card {
+  background: white;
+  border-radius: 20px;
+  padding: 60px 40px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.coming-soon-icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 30px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 20px rgba(139, 92, 246, 0);
+  }
+}
+
+.coming-soon-icon i {
+  font-size: 60px;
+  color: white;
+}
+
+.coming-soon-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.coming-soon-subtitle {
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.coming-soon-features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 20px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  border-left: 4px solid #8b5cf6;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background-color: #f3f4f6;
+  transform: translateX(5px);
+}
+
+.feature-item i {
+  font-size: 20px;
+  color: #8b5cf6;
+  flex-shrink: 0;
+}
+
+.feature-item span {
+  font-size: 15px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #92400e;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.coming-soon-badge i {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+
+/* Tablets (768px - 991px) */
+@media (max-width: 991px) {
+  .coming-soon-wrapper {
+    margin-left: 0;
+    margin-top: 60px;
+    padding: 20px;
+  }
+
+  .coming-soon-card {
+    padding: 40px 30px;
+  }
+
+  .coming-soon-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .coming-soon-icon i {
+    font-size: 50px;
+  }
+
+  .coming-soon-title {
+    font-size: 32px;
+  }
+
+  .coming-soon-subtitle {
+    font-size: 16px;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+  .coming-soon-wrapper {
+    padding: 15px;
+    min-height: calc(100vh - 120px);
+  }
+
+  .coming-soon-card {
+    padding: 30px 20px;
+  }
+
+  .coming-soon-icon {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 25px;
+  }
+
+  .coming-soon-icon i {
+    font-size: 45px;
+  }
+
+  .coming-soon-title {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .coming-soon-subtitle {
+    font-size: 15px;
+    margin-bottom: 30px;
+  }
+
+  .coming-soon-features {
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .feature-item {
+    padding: 12px 15px;
+  }
+
+  .feature-item i {
+    font-size: 18px;
+  }
+
+  .feature-item span {
+    font-size: 14px;
+  }
+
+  .coming-soon-badge {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Mobile (< 480px) */
+@media (max-width: 479px) {
+  .coming-soon-card {
+    padding: 25px 15px;
+    border-radius: 15px;
+  }
+
+  .coming-soon-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .coming-soon-icon i {
+    font-size: 40px;
+  }
+
+  .coming-soon-title {
+    font-size: 24px;
+  }
+
+  .coming-soon-subtitle {
+    font-size: 14px;
+  }
+
+  .feature-item {
+    padding: 10px 12px;
+    border-left-width: 3px;
+  }
+
+  .feature-item span {
+    font-size: 13px;
+  }
+
+  .coming-soon-badge {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}

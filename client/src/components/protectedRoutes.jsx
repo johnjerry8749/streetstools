@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      setIsAuthenticated(false);
+      setTimeout(() => setIsAuthenticated(false), 0);
       return;
     }
 

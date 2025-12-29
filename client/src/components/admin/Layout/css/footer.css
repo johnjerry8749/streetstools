@@ -1,0 +1,52 @@
+/* Dashboard Footer */
+.dashboard-footer {
+  /* margin-left: 260px;
+  padding: 20px 30px; */
+  background: transparent;
+  transition: margin-left 0.3s ease;
+}
+
+.footer-card {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.footer-card p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-footer {
+    margin-left: 0;
+    padding: 15px 20px;
+  }
+
+  .footer-card {
+    padding: 15px 20px;
+  }
+
+  .footer-card p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-footer {
+    padding: 15px;
+  }
+
+  .footer-card {
+    padding: 12px 15px;
+  }
+
+  .footer-card p {
+    font-size: 12px;
+  }
+}

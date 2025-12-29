@@ -15,6 +15,13 @@ import Profile from './components/user/profile.jsx';
 
 //protected route component
 import ProtectedRoute from './components/protectedRoutes.jsx';
+import Orders from './components/user/orders.jsx';
+import DigitalProduct from './components/user/digitalProduct.jsx';
+import Webdesign from './components/user/webdesign.jsx';
+import Accountlogs from './components/user/accountlogs.jsx';
+import Consignment from './components/user/consignment.jsx';
+import Branding from './components/user/branding.jsx';
+
 
 function App() {
   return (
@@ -47,6 +54,58 @@ function App() {
             </ProtectedRoute>
           } 
         />
+
+           <Route 
+          path="/dashboard/orders" 
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/dashboard/products"
+          element={
+            <ProtectedRoute>
+              <DigitalProduct />
+            </ProtectedRoute>
+          }
+        />
+
+         <Route 
+          path="/dashboard/webdesign"
+          element={
+            <ProtectedRoute>
+              <Webdesign />
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="/dashboard/accountlogs"
+          element={
+            <ProtectedRoute>
+              <Accountlogs />
+            </ProtectedRoute>
+          }
+        />
+         <Route 
+          path="/dashboard/consignment"
+          element={
+            <ProtectedRoute>
+              <Consignment />
+            </ProtectedRoute>
+          }
+        />  
+
+        <Route
+          path="/dashboard/branding"
+          element={
+            <ProtectedRoute>
+              <Branding />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </>
   );

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import pool from '../config/db.js'; //  FIX: Use ES6 import, add .js extension
 
 const router = express.Router();
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key'; // SECURITY: Remove fallback in production
 
 // register middleware and routes would go here
@@ -38,10 +39,11 @@ router.post('/register', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await pool.query(
-      'INSERT INTO users (fullname, email, phonenumber, country, password) VALUES ($1, $2, $3, $4, $5) RETURNING id, fullname, email, phonenumber, country',
-      [name, email, phone, country, hashedPassword]
-    );
+
+   const newUser = await pool.query(
+  'INSERT INTO users (fullname, email, phonenumber, country, password, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, fullname, email, phonenumber, country, role',
+  [name, email, phone, country, hashedPassword, 'user'] // 'user' as default role
+);
     
     res.status(201).json({ 
       status: 'success',
@@ -104,8 +106,9 @@ router.post('/login', async (req, res) => {
         fullname: user.fullname,
         email: user.email,
         phonenumber: user.phonenumber,
-        country: user.country
-      }
+        country: user.country,
+        role: user.role // include role here
+  }
     });
   } catch (error) {
     console.error('Error during login:', error);
