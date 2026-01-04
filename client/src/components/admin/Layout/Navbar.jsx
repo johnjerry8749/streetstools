@@ -112,7 +112,11 @@ const Navbar = () => {
         </nav>
 
             <div className="admin-sidebar-footer">
-        <button className="admin-logout-btn">
+        <button className="admin-logout-btn" onClick={() => {
+          localStorage.removeItem('adminToken');
+          localStorage.removeItem('adminUser');
+          window.location.href = '/adminlogin';
+        }}>
           <span className="admin-icon"><i className="bi bi-box-arrow-right"></i></span>
           <span className="admin-nav-text">Logout</span>
         </button>

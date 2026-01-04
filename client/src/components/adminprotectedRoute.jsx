@@ -7,8 +7,8 @@ const AdminProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const checkAdminAuth = async () => {
-      const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
+      const token = localStorage.getItem('adminToken');
+      const user = localStorage.getItem('adminUser');
 
       if (!token || !user) {
         setIsAuthorized(false);
@@ -40,14 +40,14 @@ const AdminProtectedRoute = ({ children }) => {
           setIsAuthorized(true);
         } else {
           // Token is invalid, clear storage
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          localStorage.removeItem('adminToken');
+          localStorage.removeItem('adminUser');
           setIsAuthorized(false);
         }
       } catch (error) {
         console.error('Auth check failed:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminUser');
         setIsAuthorized(false);
       } finally {
         setLoading(false);
