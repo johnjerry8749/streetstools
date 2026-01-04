@@ -1,5 +1,5 @@
 /* Dashboard Header */
-.dashboard-header {
+.admin-dashboard-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@
   transition: left 0.3s ease;
 }
 
-.header-left {
+.admin-header-left {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -33,11 +33,11 @@
   transition: background 0.3s ease;
 }
 
-.menu-toggle:hover {
+.admin-menu-toggle:hover {
   background: #f0f0f0;
 }
 
-.hamburger {
+.admin-hamburger {
   width: 25px;
   height: 3px;
   background: #333;
@@ -58,7 +58,7 @@
   gap: 20px;
 }
 
-.search-box input {
+.admin-search-box input {
   padding: 10px 15px;
   border: 1px solid #e0e0e0;
   border-radius: 25px;
@@ -68,7 +68,7 @@
   transition: all 0.3s ease;
 }
 
-.search-box input:focus {
+.admin-search-box input:focus {
   border-color: #4a90e2;
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
@@ -84,11 +84,11 @@
   transition: background 0.3s ease;
 }
 
-.notification-btn:hover {
+.admin-notification-btn:hover {
   background: #f0f0f0;
 }
 
-.badge {
+.admin-badge {
   position: absolute;
   top: 0;
   right: 0;
@@ -100,7 +100,7 @@
   font-weight: bold;
 }
 
-.user-profile {
+.admin-user-profile {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -110,7 +110,7 @@
   transition: background 0.3s ease;
 }
 
-.user-profile:hover {
+.admin-user-profile:hover {
   background: #f0f0f0;
 }
 
@@ -128,13 +128,13 @@
 }
 
 /* Sidebar */
-.sidebar {
+.admin-sidebar {
   position: fixed;
   top: 0;
   left: 0;
   width: 260px;
   height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #000000 0%, #1e1e1e 100%);
   padding: 20px 0;
   transition: transform 0.3s ease;
   z-index: 1000;
@@ -143,7 +143,7 @@
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar-header {
+.admin-sidebar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -151,7 +151,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.logo h3 {
+.admin-logo h3 {
   color: white;
   font-size: 24px;
   font-weight: 700;
@@ -171,29 +171,29 @@
   transition: background 0.3s ease;
 }
 
-.close-sidebar:hover {
+.admin-close-sidebar:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
 /* Navigation */
-.sidebar-nav {
+.admin-sidebar-nav {
   flex: 1;
   overflow-y: auto;
   margin-top: 20px;
   padding: 0 10px;
 }
 
-.sidebar-nav ul {
+.admin-sidebar-nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar-nav li {
+.admin-sidebar-nav li {
   margin-bottom: 5px;
 }
 
-.nav-link {
+.admin-nav-link {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -206,30 +206,30 @@
   font-weight: 500;
 }
 
-.nav-link:hover {
+.admin-nav-link:hover {
   background: rgba(255, 255, 255, 0.1);
   color: white;
   transform: translateX(5px);
 }
 
-.nav-link.active {
+.admin-nav-link.active {
   background: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
-.nav-link .icon {
+.admin-nav-link .icon {
   font-size: 20px;
   width: 24px;
   text-align: center;
 }
 
 /* Sidebar Footer */
-.sidebar-footer {
+.admin-sidebar-footer {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.logout-btn {
+.admin-logout-btn {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -245,17 +245,17 @@
   font-weight: 500;
 }
 
-.logout-btn:hover {
+.admin-logout-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateX(5px);
 }
 
-.logout-btn .icon {
+.admin-logout-btn .icon {
   font-size: 20px;
 }
 
 /* Overlay */
-.sidebar-overlay {
+.admin-sidebar-overlay {
   display: none;
   position: fixed;
   top: 0;
@@ -268,93 +268,93 @@
 
 /* Responsive Design */
 @media (min-width: 769px) {
-  .dashboard-header {
+  .admin-dashboard-header {
     left: 260px;
   }
   
-  .menu-toggle {
+  .admin-menu-toggle {
     display: none;
   }
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .admin-sidebar {
     transform: translateX(-100%);
   }
 
-  .sidebar.open {
+  .admin-sidebar.open {
     transform: translateX(0);
   }
 
-  .close-sidebar {
+  .admin-close-sidebar {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .sidebar-overlay {
+  .admin-sidebar-overlay {
     display: block;
   }
 
-  .dashboard-header {
+  .admin-dashboard-header {
     left: 0;
   }
 
-  .dashboard-title {
+  .admin-dashboard-title {
     font-size: 18px;
   }
 
-  .search-box {
+  .admin-search-box {
     display: none;
   }
 
-  .user-name {
+  .admin-user-name {
     display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .dashboard-header {
+  .admin-dashboard-header {
     padding: 0 15px;
   }
 
-  .header-right {
+  .admin-header-right {
     gap: 10px;
   }
 
-  .dashboard-title {
+  .admin-dashboard-title {
     font-size: 16px;
   }
 
-  .notification-btn {
+  .admin-notification-btn {
     font-size: 20px;
   }
 
-  .user-profile img {
+  .admin-user-profile img {
     width: 35px;
     height: 35px;
   }
 
-  .sidebar {
+  .admin-sidebar {
     width: 280px;
   }
 }
 
 /* Custom Scrollbar for Sidebar */
-.sidebar-nav::-webkit-scrollbar {
+.admin-sidebar-nav::-webkit-scrollbar {
   width: 6px;
 }
 
-.sidebar-nav::-webkit-scrollbar-track {
+.admin-sidebar-nav::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-.sidebar-nav::-webkit-scrollbar-thumb {
+.admin-sidebar-nav::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
 }
 
-.sidebar-nav::-webkit-scrollbar-thumb:hover {
+.admin-sidebar-nav::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 }

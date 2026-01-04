@@ -1,17 +1,30 @@
 import express from 'express';
 const router = express.Router();
-import { verifyToken } from '../mildleware/authentication.js'; // Changed 'middleware' to 'mildleware'
-import {getSiteSettings} from '../controller/index.js';
+
+// Middleware imports
+import { verifyToken } from '../mildleware/authentication.js';
+import { adminAuthMiddleware } from '../mildleware/adminauthentication.js';
+
+// Controller imports
+import { getSiteSettings } from '../controller/index.js';
+import { adminLogin } from '../controller/adminlogincontroller.js';
 import { 
   getUserProfile, 
   updateUserProfile, 
   changePassword, 
-//sendVerificationEmail,
   uploadProfileImage,
   removeProfileImage
 } from '../controller/userController.js';
-import { getUserNotifications, markNotificationRead, sendNotificationToUser, sendNotificationToAll } from '../controller/notificationcontroller.js';
+import { 
+  getUserNotifications, 
+  markNotificationRead, 
+  sendNotificationToUser, 
+  sendNotificationToAll 
+} from '../controller/notificationcontroller.js';
+
+// Service imports
 import { upload } from '../services/cloudinary.js';
+
 
 
 // Route to get site settings for footer
@@ -37,9 +50,32 @@ router.delete('/user/profile/remove-image', verifyToken, removeProfileImage);
 router.get('/user/notifications', verifyToken, getUserNotifications);
 router.post('/user/notifications/read', verifyToken, markNotificationRead);
 
+// Admin login route
+router.post('/api/auth/adminlogin', adminLogin);
+
+// Admin verification route
+router.get('/admin/verify', adminAuthMiddleware, (req, res) => {
+  res.json({ 
+    status: 'success', 
+    message: 'Admin verified', 
+    admin: req.admin 
+  });
+});
+
 // Admin notification routes
-router.post('/admin/notifications/send-to-user', verifyToken, sendNotificationToUser);
-router.post('/admin/notifications/send-to-all', verifyToken, sendNotificationToAll);
+router.post('/admin/notifications/send-to-user', adminAuthMiddleware, sendNotificationToUser);
+router.post('/admin/notifications/send-to-all', adminAuthMiddleware, sendNotificationToAll);
+
+// Admin dashboard route
+router.get('/admin/dashboard', adminAuthMiddleware, (req, res) => {
+  res.json({ 
+    status: 'success', 
+    message: 'Welcome to admin dashboard', 
+    admin: req.admin 
+  });
+});
+
+
 
 
 

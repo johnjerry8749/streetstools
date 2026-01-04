@@ -6,15 +6,17 @@ import About from './components/pages/About';
 import Services from './components/pages/Services';
 import Contact from './components/pages/Contact';
 import Login from './components/auth/login';
+import Adminlogin from './components/auth/adminlogin.jsx';
 import Register from './components/auth/register';
 import ForgetPassword from './components/auth/forgetpassword';
 
-//user dashboard routes
+//User & Admin Protected Route 
+import ProtectedRoute from './components/protectedRoutes.jsx';
+import AdminProtectedRoute from './components/adminprotectedRoute.jsx';
+
+//user dashboard protected route component
 import Dashboard from './components/user/dashboard';
 import Profile from './components/user/profile.jsx';
-
-//protected route component
-import ProtectedRoute from './components/protectedRoutes.jsx';
 import Orders from './components/user/orders.jsx';
 import DigitalProduct from './components/user/digitalProduct.jsx';
 import Webdesign from './components/user/webdesign.jsx';
@@ -22,6 +24,8 @@ import Accountlogs from './components/user/accountlogs.jsx';
 import Consignment from './components/user/consignment.jsx';
 import Branding from './components/user/branding.jsx';
 
+//Admin Protected Route component
+import Admin_Dashboard  from './components/admin/dashboard.jsx'
 
 function App() {
   return (
@@ -34,6 +38,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path="/adminlogin" element={<Adminlogin />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
 
       {/* Protected Dashboard Route */}
@@ -103,6 +108,17 @@ function App() {
             <ProtectedRoute>
               <Branding />
             </ProtectedRoute>
+          }
+        />
+
+
+        {/*Admin Protected Routes*/}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminProtectedRoute>
+              <Admin_Dashboard />
+            </AdminProtectedRoute>
           }
         />
 
