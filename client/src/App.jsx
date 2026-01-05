@@ -26,6 +26,8 @@ import Branding from './components/user/branding.jsx';
 
 //Admin Protected Route component
 import Admin_Dashboard  from './components/admin/dashboard.jsx'
+import Settings from './components/admin/settings.jsx';
+import Usermanagement from './components/admin/usermanagement.jsx';
 
 function App() {
   return (
@@ -118,6 +120,23 @@ function App() {
           element={
             <AdminProtectedRoute>
               <Admin_Dashboard />
+            </AdminProtectedRoute>
+          }
+        />
+          <Route
+          path='/admin/settings'
+          element={
+            <AdminProtectedRoute>
+              <Settings />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route 
+          path="/admin/usermanagement"
+          element={
+            <AdminProtectedRoute>
+              <Usermanagement />
             </AdminProtectedRoute>
           }
         />

@@ -22,7 +22,12 @@ const storage = new CloudinaryStorage({
       crop: 'limit',
       quality: 'auto'
     }],
-    public_id: (req, file) => `user_${req.user.id}_${Date.now()}`
+    public_id: (req, file) => {
+      // Handle both user and admin uploads
+      const userId = req.user?.id || req.admin?.id || 'unknown';
+      const prefix = req.admin ? 'admin' : 'user';
+      return `${prefix}_${userId}_${Date.now()}`;
+    }
   }
 });
 

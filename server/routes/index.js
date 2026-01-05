@@ -6,7 +6,7 @@ import { verifyToken } from '../mildleware/authentication.js';
 import { adminAuthMiddleware } from '../mildleware/adminauthentication.js';
 
 // Controller imports
-import { getSiteSettings } from '../controller/index.js';
+import { getSiteSettings, getAdminSiteSettings, updateSiteSettings } from '../controller/index.js';
 import { adminLogin } from '../controller/adminlogincontroller.js';
 import { 
   getUserProfile, 
@@ -21,9 +21,11 @@ import {
   sendNotificationToUser, 
   sendNotificationToAll 
 } from '../controller/notificationcontroller.js';
+import {getAllUsers, deleteUser, updateUserStatus, adminupdateUserProfile } from '../controller/admin/users.js';
 
 // Service imports
 import { upload } from '../services/cloudinary.js';
+
 
 
 
@@ -75,8 +77,13 @@ router.get('/admin/dashboard', adminAuthMiddleware, (req, res) => {
   });
 });
 
+// Admin site settings routes
+router.get('/admin/site-settings', adminAuthMiddleware, getAdminSiteSettings);
+router.put('/admin/site-settings', adminAuthMiddleware, upload.single('sitelogo'), updateSiteSettings);
 
-
-
+router.get('/admin/users', adminAuthMiddleware, getAllUsers);
+router.delete('/admin/users/:id', adminAuthMiddleware, deleteUser);
+router.put('/admin/users/:id/status', adminAuthMiddleware, updateUserStatus);
+router.put('/admin/users/:id/profile', adminAuthMiddleware, adminupdateUserProfile);
 
 export default router;
