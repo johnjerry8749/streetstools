@@ -31,6 +31,8 @@ app.use(express.static("public"));
 //routes
 app.use('/', router)
 app.use('/api/auth', authRouter);
+app.use('/downloads', express.static('public/downloads'));
+
 
 
 app.listen(PORT, ()=>{console.log(`Sever Runing on Localhost:${PORT}`)});

@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from 'cloudinary';
+ import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import pkg from 'multer-storage-cloudinary';
 const { CloudinaryStorage } = pkg;
@@ -13,37 +13,72 @@ cloudinary.config({
 // Configure Cloudinary storage for multer
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'streetstools/profile_images',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-    transformation: [{ 
-      width: 500, 
-      height: 500, 
-      crop: 'limit',
-      quality: 'auto'
-    }],
-    public_id: (req, file) => {
-      // Handle both user and admin uploads
-      const userId = req.user?.id || req.admin?.id || 'unknown';
-      const prefix = req.admin ? 'admin' : 'user';
-      return `${prefix}_${userId}_${Date.now()}`;
+  params: (req, file) => {
+    // Dynamic folder based on file type
+    let folder = 'streetstools/profile_images'; // default
+    let resourceType = 'image'; // default
+    
+    if (file.fieldname === 'productImage') {
+      folder = 'streetstools/products/images';
+      resourceType = 'image';
+    } else if (file.fieldname === 'productFile') {
+      folder = 'streetstools/products/files';
+      resourceType = 'auto'; // For PDFs and other files
     }
+
+    return {
+      folder: folder,
+      resource_type: resourceType,
+      allowed_formats: file.fieldname === 'productFile' ? ['pdf'] : ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+      public_id: `${file.fieldname}_${Date.now()}`,
+      transformation: file.fieldname === 'productImage' ? [{ 
+        width: 500, 
+        height: 500, 
+        crop: 'limit',
+        quality: 'auto'
+      }] : undefined
+    };
   }
 });
 
 // Configure multer with Cloudinary storage
 export const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit (increased for PDF files)
   fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedTypes.test(file.originalname.toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
+    // Check field name to determine allowed file types
+    if (file.fieldname === 'productImage') {
+      // For product images: only allow image files
+      const allowedImageTypes = /jpeg|jpg|png|gif|webp/;
+      const extname = allowedImageTypes.test(file.originalname.toLowerCase());
+      const mimetype = allowedImageTypes.test(file.mimetype);
 
-    if (extname && mimetype) {
-      cb(null, true);
+      if (extname && mimetype) {
+        cb(null, true);
+      } else {
+        cb(new Error('Product image must be JPEG, PNG, GIF, or WebP format!'));
+      }
+    } else if (file.fieldname === 'digitalFile') {
+      // For digital files: only allow PDF files
+      const isPDF = file.mimetype === 'application/pdf' || 
+                    file.originalname.toLowerCase().endsWith('.pdf');
+
+      if (isPDF) {
+        cb(null, true);
+      } else {
+        cb(new Error('Digital product file must be a PDF!'));
+      }
     } else {
-      cb(new Error('Only image files (JPEG, PNG, GIF, WebP) are allowed!'));
+      // For profile images and other uploads: only allow images
+      const allowedImageTypes = /jpeg|jpg|png|gif|pdf|webp/;
+      const extname = allowedImageTypes.test(file.originalname.toLowerCase());
+      const mimetype = allowedImageTypes.test(file.mimetype);
+
+      if (extname && mimetype) {
+        cb(null, true);
+      } else {
+        cb(new Error('Only image files (JPEG, PNG, GIF, WebP) are allowed!'));
+      }
     }
   }
 });

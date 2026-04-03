@@ -1,59 +1,37 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import nodemailer from 'nodemailer';
-import { renderTemplate } from '../templates/emailTemplates.js';
-import { renderHtmlTemplate } from './emailTemplate.js';
 
-// Create transporter
-const createTransporter = () => {
-  return nodemailer.createTransporter({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD
-    }
+const {
+  SMTP_HOST,
+  SMTP_PORT,
+  SMTP_SECURE = 'false',
+  SMTP_USER,
+  SMTP_PASS,
+  MAIL_FROM,
+} = process.env;
+
+if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !MAIL_FROM) {
+  throw new Error('Missing SMTP config: set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM');
+}
+
+const transporter = nodemailer.createTransport({
+  host: SMTP_HOST,
+  port: Number(SMTP_PORT),
+  secure: SMTP_SECURE === 'true',
+  auth: {
+    user: SMTP_USER,
+    pass: SMTP_PASS,
+  },
+});
+
+export async function sendVerificationEmail(to, subject, html) {
+  const info = await transporter.sendMail({
+    from: MAIL_FROM,
+    to,
+    subject,
+    html,
   });
-};
-
-// Send email function
-export const sendEmail = async (to, subject, html, text = '') => {
-  try {
-    const transporter = createTransporter();
-    
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: to,
-      subject: subject,
-      html: html,
-      text: text
-    };
-
-    const result = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', result.messageId);
-    return { success: true, messageId: result.messageId };
-    
-  } catch (error) {
-    console.error('Error sending email:', error);
-    return { success: false, error: error.message };
-  }
-};
-
-// Updated notification email function (using JS templates)
-export const sendNotificationEmail = async (to, templateName, data) => {
-  try {
-    const { subject, html } = renderTemplate(templateName, data);
-    return await sendEmail(to, subject, html);
-  } catch (error) {
-    console.error('Error sending notification email:', error);
-    return { success: false, error: error.message };
-  }
-};
-
-// New function for HTML template files
-export const sendHtmlNotification = async (to, templateName, data) => {
-  try {
-    const { subject, html } = await renderHtmlTemplate(templateName, data);
-    return await sendEmail(to, subject, html);
-  } catch (error) {
-    console.error('Error sending HTML email:', error);
-    return { success: false, error: error.message };
-  }
-};
+  return info;
+}

@@ -1,6 +1,62 @@
 import pool from '../config/db.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import cloudinary from '../services/cloudinary.js';
+import jwt from 'jsonwebtoken';
+
+// User login
+export const userLogin = async (req, res) => {
+  const { email, password } = req.body;
+  
+  // Validate input
+  if (!email || !password) {
+    return res.status(400).json({ status: 'error', error: 'Email and password are required' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ status: 'error', error: 'Invalid email or password' });
+    }
+    
+    const user = result.rows[0];
+    
+    // Compare hashed passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {  
+      return res.status(401).json({ status: 'error', error: 'Invalid email or password' });
+    }
+    
+    // Generate JWT token
+    const token = jwt.sign(
+      { 
+        id: user.id, 
+        email: user.email, 
+        role: user.role 
+      },
+      process.env.JWT_SECRET || 'fallback-secret-key', 
+      { 
+        expiresIn: '24h' 
+      }
+    );
+    
+    res.json({ 
+      status: 'success', 
+      token, 
+      user: { 
+        id: user.id, 
+        email: user.email, 
+        name: user.fullname,
+        fullname: user.fullname,
+        phonenumber: user.phonenumber,
+        country: user.country,
+        role: user.role 
+      } 
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ status: 'error', error: 'Internal server error' });
+  }
+};
 
 // Get user profile
 export const getUserProfile = async (req, res) => {

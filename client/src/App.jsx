@@ -28,6 +28,11 @@ import Branding from './components/user/branding.jsx';
 import Admin_Dashboard  from './components/admin/dashboard.jsx'
 import Settings from './components/admin/settings.jsx';
 import Usermanagement from './components/admin/usermanagement.jsx';
+import AdminDigitalProduct from './components/admin/digitalproducts.jsx';
+import ManageProducts from './components/admin/ManageProducts.jsx';
+import PaymentCallback from './components/user/PaymentCallback';
+
+
 
 function App() {
   return (
@@ -42,6 +47,9 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path="/adminlogin" element={<Adminlogin />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/payment/callback" element={<PaymentCallback />} />
+        
+
 
       {/* Protected Dashboard Route */}
         <Route 
@@ -140,6 +148,24 @@ function App() {
             </AdminProtectedRoute>
           }
         />
+        <Route 
+          path="/admin/digitalproducts"
+          element={
+            <AdminProtectedRoute>
+              <AdminDigitalProduct />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route 
+          path="/admin/allproducts"
+          element={
+            <AdminProtectedRoute>
+              <ManageProducts />
+            </AdminProtectedRoute>
+          }
+        />
+
+        
 
       </Routes>
     </>

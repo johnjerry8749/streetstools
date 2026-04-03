@@ -1,3 +1,4 @@
+import e from 'express';
 import pool from '../config/db.js';
 
 
@@ -89,32 +90,6 @@ export const markNotificationRead = async (req, res) => {
   }
 };
 
-// Send notification to specific user (Admin)
-export const sendNotificationToUser = async (req, res) => {
-  try {
-    const { userId, title, message, type, expiresAt } = req.body;
-    
-    if (!userId || !title || !message) {
-      return res.status(400).json({ status: 'error', message: 'userId, title, and message are required' });
-    }
-    
-    const result = await pool.query(
-      `INSERT INTO notifications (user_id, title, message, type, is_global, expires_at) 
-       VALUES ($1, $2, $3, $4, FALSE, $5) 
-       RETURNING id, title, message, type, created_at`,
-      [userId, title, message, type || 'info', expiresAt || null]
-    );
-    
-    res.json({ 
-      status: 'success', 
-      message: 'Notification sent to user',
-      notification: result.rows[0]
-    });
-  } catch (error) {
-    console.error('Error sending notification to user:', error);
-    res.status(500).json({ status: 'error', message: 'Internal server error' });
-  }
-};
 
 // Send notification to all users (Admin)
 export const sendNotificationToAll = async (req, res) => {
@@ -140,5 +115,70 @@ export const sendNotificationToAll = async (req, res) => {
   } catch (error) {
     console.error('Error sending notification to all users:', error);
     res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+};
+
+
+//send notification to specific user
+
+// Helper used by non-route code (e.g., payment verification)
+export const sendNotificationByEmail = async (email, { title, message, type = 'info' }) => {
+  if (!email) {
+    throw new Error('Email is required to send notification');
+  }
+  if (!title || !message) {
+    throw new Error('Notification title and message are required');
+  }
+
+  // Try to resolve user by email, if exists
+  const userResult = await pool.query(
+    'SELECT id FROM users WHERE email = $1 LIMIT 1',
+    [email]
+  );
+
+  const userId = userResult.rows?.[0]?.id || null;
+
+  // Deduplicate notifications for the same user with same text within a short window
+  const existingNotification = await pool.query(
+    `SELECT id FROM notifications
+     WHERE user_id = $1
+       AND title = $2
+       AND message = $3
+       AND created_at >= NOW() - INTERVAL '5 minutes'
+     LIMIT 1`,
+    [userId, title, message]
+  );
+
+  if (existingNotification.rows.length > 0) {
+    return { status: 'skipped', message: 'Duplicate notification ignored' };
+  }
+
+  await pool.query(
+    `INSERT INTO notifications (user_id, title, message, type, is_global, is_read, created_at)
+     VALUES ($1, $2, $3, $4, FALSE, FALSE, NOW())`,
+    [userId, title, message, type]
+  );
+
+  return { status: 'success', message: 'Notification queued' };
+};
+
+export const sendNotificationToUser = async (req, res) => {
+  try {
+    const { userId, title, message, type } = req.body;
+
+    if (!userId || !title || !message) {
+      return res.status(400).json({ status: 'error', message: 'userId, title and message are required' });
+    }
+
+    await pool.query(
+      `INSERT INTO notifications (user_id, title, message, type, is_global, is_read, created_at)
+       VALUES ($1, $2, $3, $4, FALSE, FALSE, NOW())`,
+      [userId, title, message, type || 'info']
+    );
+
+    return res.json({ status: 'success', message: 'Notification sent to user' });
+  } catch (error) {
+    console.error('Error sending notification to user:', error);
+    return res.status(500).json({ status: 'error', message: 'Internal server error' });
   }
 };

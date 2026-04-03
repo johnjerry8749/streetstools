@@ -142,15 +142,15 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/admin/products" className="admin-nav-link" onClick={isMobile ? closeSidebar : undefined}>
+              <Link to="/admin/digitalproducts" className="admin-nav-link" onClick={isMobile ? closeSidebar : undefined}>
                 <span className="admin-icon"><i className="bi bi-collection"></i></span>
                 <span className="admin-nav-text">Digital Products</span>
               </Link>
             </li>
             <li>
-              <Link to="/admin/logs" className="admin-nav-link" onClick={isMobile ? closeSidebar : undefined}>
+              <Link to="/admin/allproducts" className="admin-nav-link" onClick={isMobile ? closeSidebar : undefined}>
                 <span className="admin-icon"><i className="bi bi-file-text"></i></span>
-                <span className="admin-nav-text">Account Logs</span>
+                <span className="admin-nav-text">Manage Products</span>
               </Link>
             </li>
             <li>
