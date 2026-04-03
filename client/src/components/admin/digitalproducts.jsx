@@ -114,7 +114,7 @@ const Digitalproducts = () => {
                 }
 
             console.log('Sending request to server...');
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const apiUrl = import.meta.env.VITE_API_URL ?? '';
             const response = await axios.post(`${apiUrl}/admin/products`, form, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,

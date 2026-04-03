@@ -19,7 +19,7 @@ useEffect(() => {
 }, [location.state]);
 
 useEffect(() => {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const apiUrl = import.meta.env.VITE_API_URL ?? '';
   fetch(`${apiUrl}/user/userproducts`, {
     method: 'GET',
     headers: {
@@ -67,7 +67,7 @@ const handlePayment = async (product) => {
       return;
     }
 
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_API_URL ?? '';
   try {
     const response = await fetch(`${apiUrl}/payment/initialization`, {
       method: 'POST',

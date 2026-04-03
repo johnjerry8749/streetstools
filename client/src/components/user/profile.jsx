@@ -45,7 +45,7 @@ const Profile = () => {
 
   // Fetch user profile data on component mount
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_API_URL ?? '';
     const token = localStorage.getItem('token');
     
     fetch(`${apiUrl}/user/profile`, {
@@ -79,7 +79,7 @@ const Profile = () => {
 useEffect(() => {
   const fetchNotifications = async () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
       
       console.log('Fetching from:', `${apiUrl}/user/notifications`); // Debug
@@ -125,7 +125,7 @@ useEffect(() => {
   // Mark notification as read
   const markAsRead = async (notificationId) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
       
       const response = await fetch(`${apiUrl}/user/notifications/read`, {
@@ -154,7 +154,7 @@ useEffect(() => {
   // Clear all notifications
   const clearAllNotifications = async () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
       
       // Mark all unread notifications as read
@@ -222,7 +222,7 @@ useEffect(() => {
     setMessage({ type: '', text: '' });
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
 
       const formData = new FormData();
@@ -267,7 +267,7 @@ useEffect(() => {
     setMessage({ type: '', text: '' });
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
 
       const response = await fetch(`${apiUrl}/user/profile/remove-image`, {
@@ -326,7 +326,7 @@ useEffect(() => {
     setPasswordMessage({ type: '', text: '' });
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
 
       const response = await fetch(`${apiUrl}/user/change-password`, {
@@ -403,7 +403,7 @@ useEffect(() => {
     setMessage({ type: '', text: '' });
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const token = localStorage.getItem('token');
 
       const response = await fetch(`${apiUrl}/user/profile`, {

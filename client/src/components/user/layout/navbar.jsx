@@ -20,7 +20,7 @@ const Navbar = () => {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const apiUrl = import.meta.env.VITE_API_URL ?? '';
         fetch(`${apiUrl}/user/notifications`, {
             method: 'GET',
             headers: {
@@ -41,7 +41,7 @@ const Navbar = () => {
   
 
     useEffect(() => {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const apiUrl = import.meta.env.VITE_API_URL ?? '';
         fetch(`${apiUrl}/site-settings`)
           .then((response) => response.json())
           .then((data) => {
@@ -54,7 +54,7 @@ const Navbar = () => {
         }, []);
 
         useEffect(() => {
-          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+          const apiUrl = import.meta.env.VITE_API_URL ?? '';
           const token = localStorage.getItem('token');
             fetch(`${apiUrl}/user/profile`, {
                 method: 'GET',

@@ -36,7 +36,7 @@ const UserManagement = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('adminToken');
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const response = await fetch(`${apiUrl}/admin/users`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -58,7 +58,7 @@ const UserManagement = () => {
   const updateUserStatus = async (userId, newStatus) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const response = await fetch(`${apiUrl}/admin/users/${userId}/status`, {
         method: 'PUT',
         headers: {
@@ -80,7 +80,7 @@ const UserManagement = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
         const token = localStorage.getItem('adminToken');
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const apiUrl = import.meta.env.VITE_API_URL ?? '';
         const response = await fetch(`${apiUrl}/admin/users/${userId}`, {
           method: 'DELETE',
           headers: {
@@ -134,7 +134,7 @@ const UserManagement = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('adminToken');
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const response = await fetch(`${apiUrl}/admin/users/${editingUser.id}/profile`, {
         method: 'PUT',
         headers: {

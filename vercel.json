@@ -1,7 +1,23 @@
 {
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
-    { "source": "/payment/initialization", "destination": "/api/payment/initialization" },
-    { "source": "/payment/verify", "destination": "/api/payment/verify" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(api|payment|user|admin|site-settings)(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

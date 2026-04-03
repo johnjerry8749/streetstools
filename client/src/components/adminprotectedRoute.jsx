@@ -27,7 +27,7 @@ const AdminProtectedRoute = ({ children }) => {
         }
 
         // Verify token with backend
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const apiUrl = import.meta.env.VITE_API_URL ?? '';
         const response = await fetch(`${apiUrl}/admin/verify`, {
           method: 'GET',
           headers: {

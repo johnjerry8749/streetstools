@@ -11,7 +11,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_API_URL ?? '';
     fetch(`${apiUrl}/site-settings`)
       .then((response) => response.json())
       .then((data) => {
@@ -33,7 +33,7 @@ const handleSubmit = async (e) => {
   setStatus('submitting');
 
   try {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_API_URL ?? '';
     const response = await fetch(`${apiUrl}/api/auth/login`, {
       method: 'POST',
       headers: {

@@ -31,7 +31,7 @@ const Settings = () => {
   const fetchSiteSettings = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const response = await fetch(`${apiUrl}/admin/site-settings`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -89,7 +89,7 @@ const Settings = () => {
         formData.append('sitelogo', logoFile);
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL ?? '';
       const response = await fetch(`${apiUrl}/admin/site-settings`, {
         method: 'PUT',
         headers: {

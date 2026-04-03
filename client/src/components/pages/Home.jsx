@@ -10,7 +10,7 @@ const Home = () => {
 const [siteName, setSiteName] = useState("");
 
 useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_API_URL ?? '';
     fetch(`${apiUrl}/site-settings`)
       .then((response) => response.json())
       .then((data) => {
