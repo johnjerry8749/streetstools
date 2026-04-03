@@ -77,7 +77,7 @@ export const verifyPayment = async (req, res) => {
     const email = data.customer?.email?.trim();
     const downloadUrl = `${process.env.BACKEND_URL || 'http://localhost:5000'}/downloads/${downloadFilename}`;
 
-      //Save Payment to database  
+      //Save Reference Payment to database  
     if (data.status === "success" && email) {
      try {
       await pool.query(
