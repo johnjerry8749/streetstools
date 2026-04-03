@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/payment/initialization", "destination": "/api/payment/initialization" },
+    { "source": "/payment/verify", "destination": "/api/payment/verify" }
+  ]
+}
