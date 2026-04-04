@@ -35,7 +35,7 @@ app.use('/api/auth', authRouter);
 app.use('/downloads', express.static('public/downloads'));
 
 
-app.get("/api/test", (req, res) => {
+app.get("/index.js", (req, res) => {
   res.json({ message: "Backend working!" });
 });
 
