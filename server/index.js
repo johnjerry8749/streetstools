@@ -5,6 +5,9 @@ import morgan from "morgan";
 import router from "./routes/index.js";
 import dotenv from 'dotenv';
 import authRouter from './mildleware/authentication.js';
+import Serverless from "serverless";
+import Serverless from "serverless";
+import { app } from "../api/index.js";
 
 
 dotenv.config();// Load environment variables from .env file
@@ -35,4 +38,8 @@ app.use('/downloads', express.static('public/downloads'));
 
 
 
-app.listen(PORT, ()=>{console.log(`Sever Runing on Localhost:${PORT}`)});
+app.get("/api/index.js", (req, res) => {
+  res.json({ message: "Backend working!" });
+});
+
+export default Serverless(app);

@@ -10,7 +10,7 @@ import Serverless from "serverless";
 
 dotenv.config();// Load environment variables from .env file
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 3000;
 const REACT_APP_URL = process.env.REACT_APP_URL || 'http://localhost:5173';
 
