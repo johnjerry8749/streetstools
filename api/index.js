@@ -5,7 +5,7 @@ import morgan from "morgan";
 import router from "./routes/index.js";
 import dotenv from 'dotenv';
 import authRouter from './mildleware/authentication.js';
-import Serverless from "serverless";
+import serverless from "serverless-http";
 
 
 dotenv.config();// Load environment variables from .env file
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //for static files
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 //routes
 app.use('/', router)
@@ -35,11 +35,11 @@ app.use('/api/auth', authRouter);
 app.use('/downloads', express.static('public/downloads'));
 
 
-app.get("/api/index.js", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({ message: "Backend working!" });
 });
 
-export default Serverless(app);
+export default serverless(app);
 
 
 

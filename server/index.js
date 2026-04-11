@@ -5,9 +5,8 @@ import morgan from "morgan";
 import router from "./routes/index.js";
 import dotenv from 'dotenv';
 import authRouter from './mildleware/authentication.js';
-import Serverless from "serverless";
-import Serverless from "serverless";
-import { app } from "../api/index.js";
+
+
 
 
 dotenv.config();// Load environment variables from .env file
@@ -29,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //for static files
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 //routes
 app.use('/', router)
@@ -37,9 +36,15 @@ app.use('/api/auth', authRouter);
 app.use('/downloads', express.static('public/downloads'));
 
 
+// for vercel deployment uncomment this line of code the comment the app.listen so it will
+//listen to the api folder with serverless-http
+// app.get("/api/index.js", (req, res) => {
+//   res.json({ message: "Backend working!" });
+// });
 
-app.get("/api/index.js", (req, res) => {
-  res.json({ message: "Backend working!" });
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
-export default Serverless(app);
+export default app;
