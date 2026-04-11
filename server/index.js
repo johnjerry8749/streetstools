@@ -37,7 +37,7 @@ app.use('/downloads', express.static('public/downloads'));
 
 
 
-app.get("/api", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "Backend working!" });
 });
 
