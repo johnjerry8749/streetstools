@@ -15,7 +15,7 @@ import {
   uploadProfileImage,
   removeProfileImage,
   userLogin
-} from '../controller/userController.js';
+} from '../controller/usercontroller.js';
 import { 
   getUserNotifications, 
   markNotificationRead, 
