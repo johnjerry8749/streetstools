@@ -40,7 +40,7 @@ router.get('/site-settings', getSiteSettings);
 router.get('/user/profile', verifyToken, getUserProfile);
 
 // User login route
-router.post('/api/auth/login', userLogin);
+router.post('/auth/login', userLogin);
 
 // Route to update user profile data
 router.put('/user/profile', verifyToken, updateUserProfile);
@@ -60,7 +60,7 @@ router.post('/user/notifications/read', verifyToken, markNotificationRead);
 router.get('/user/userproducts',verifyToken, getAllProducts); // Public route to fetch products for user dashboard
 
 // Admin login route
-router.post('/api/auth/adminlogin', adminLogin);
+router.post('/auth/adminlogin', adminLogin);
 
 // Admin verification route
 router.get('/admin/verify', adminAuthMiddleware, (req, res) => {

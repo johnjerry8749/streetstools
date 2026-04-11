@@ -36,11 +36,10 @@ app.use('/api/auth', authRouter);
 app.use('/downloads', express.static('public/downloads'));
 
 
-// for vercel deployment uncomment this line of code the comment the app.listen so it will
-//listen to the api folder with serverless-http
-// app.get("/api/index.js", (req, res) => {
-//   res.json({ message: "Backend working!" });
-// });
+
+app.get("/api", (req, res) => {
+  res.json({ message: "Backend working!" });
+});
 
 
 app.listen(PORT, () => {
